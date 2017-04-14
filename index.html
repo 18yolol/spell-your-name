@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Spelling name</title>
+    </head>
+    <body ng-app="spellName">
+        <h1>How your names are spelled by foreigners</h1>
+
+        <div ng-controller="AppController as vm">
+            <label for="name_input">Input your name here</label>
+            <input ng-change="vm.readyToPlay = false" ng-model="vm.rawInput" type="text" id="name_input" name="name_input" placeholder="Enter name here"></input>
+            <p>{{vm.rawInput}}</p>
+            <button ng-click="vm.loadAudio()">Make our Russian speak!</button>
+            <div>
+                <button ng-show="vm.readyToPlay" ng-click="vm.playAudio()">Listen to your name!</button>
+                <section ng-repeat="audioLink in vm.audioLinks">
+                    <audio ng-attr-id="{{'audio'+$index}}">
+                        <source ng-src="{{audioLink}}"></source>
+                    </audio>
+                </section>
+            </div>
+            <div ng-show="!vm.correctNameFormat">
+                Invalid Input
+            </div>
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+        <script src="app/app.module.js"></script>
+        <script src="app/app.constant.js"></script>
+        <script src="app/app.controller.js"></script>
+        <!--<script src="js/main.js"></script>-->
+    </body>
+</html>

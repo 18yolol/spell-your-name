@@ -1,0 +1,78 @@
+// Need charset UTF-8 to correctly run this file
+
+(function () {
+    'use strict';
+
+    angular
+        .module('spellName')
+        .controller('AppController', AppController);
+
+    AppController.$inject = ['NAME_LIST', '$timeout'];
+
+    function AppController(NAME_LIST, $timeout) {
+        var vm = this;
+
+        vm.correctNameFormat = true;
+        vm.readyToPlay = false;
+        vm.rawInput = "";
+
+        vm.splitedName = [];
+        vm.audioLinks = [];
+
+        vm.loadAudio = loadAudio;
+        vm.playAudio = playAudio;
+
+        function loadAudio() {
+
+            vm.readyToPlay = false;
+            vm.splitedName = [];
+            vm.audioLinks = [];
+
+            if (vm.rawInput == "") {
+                vm.correctNameFormat = false;
+                return false;
+            } else {
+                vm.correctNameFormat = true;
+            }
+
+            vm.splitedName = removeUnicode(vm.rawInput).split(/\s+/);
+
+            if (vm.splitedName.some(invalidName)) {
+                vm.correctNameFormat = false;
+                return false;
+            } else {
+                vm.correctNameFormat = true;
+            }
+
+            vm.audioLinks = vm.splitedName.map(function(name){
+                return NAME_LIST[name];
+            });
+
+            vm.readyToPlay = true;
+        }
+
+        function playAudio() {
+            for (let audio_index in vm.audioLinks) {
+                $timeout(function(){
+                    document.getElementById('audio'+audio_index).play();
+                }, 1000*audio_index)
+            }
+        }
+
+        function invalidName(currentName, index, nameArray) {
+            return !(currentName in NAME_LIST);
+        }
+
+        function removeUnicode(str) {
+            str = str.toLowerCase();
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+            str = str.replace(/đ/g, "d");
+            return str;
+        }
+    }
+})();
