@@ -52,11 +52,16 @@
         }
 
         function playAudio() {
-            for (let audio_index in vm.audioLinks) {
+            vm.audioLinks.forEach(function(audioLink, index, array){
                 $timeout(function(){
-                    document.getElementById('audio'+audio_index).play();
-                }, 1000*audio_index)
-            }
+                    let audio = document.getElementById('name-speak');
+                    audio.src = audioLink;
+                    audio.play()
+                        .catch(function(){
+                            console.log("failed");
+                        });
+                }, 900*index);
+            });
         }
 
         function invalidName(currentName, index, nameArray) {
@@ -72,6 +77,9 @@
             str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
             str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
             str = str.replace(/đ/g, "d");
+            // Some system encode vietnamese combining accent as individual utf-8 characters
+            str = str.replace(/\u0300|\u0301|\u0303|\u0309|\u0323/g, ""); // Huyền sắc hỏi ngã nặng 
+            str = str.replace(/\u02C6|\u0306|\u031B/g, ""); // Â, Ê, Ă, Ơ, Ư
             return str;
         }
     }
