@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <meta charset="UTF-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <title>Spelling name</title>
     </head>
     <body ng-app="spellName">
@@ -14,11 +14,12 @@
             <button ng-click="vm.loadAudio()">Make our Russian speak!</button>
             <div>
                 <button ng-show="vm.readyToPlay" ng-click="vm.playAudio()">Listen to your name!</button>
-                <section ng-repeat="audioLink in vm.audioLinks">
-                    <audio ng-attr-id="{{'audio'+$index}}">
-                        <source ng-src="{{audioLink}}"></source>
-                    </audio>
-                </section>
+                <!--<audio ng-repeat="audioLink in vm.audioLinks" ng-attr-id="{{'audio'+$index}}">
+                    <source ng-src="{{audioLink}}" type="audio/wav"></source>
+                </audio>-->
+                <audio id="name-speak">
+                    <source src="" type="audio/wav"></source>
+                </audio>
             </div>
             <div ng-show="!vm.correctNameFormat">
                 Invalid Input
@@ -26,9 +27,9 @@
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-        <script src="app/app.module.js"></script>
-        <script src="app/app.constant.js"></script>
-        <script src="app/app.controller.js"></script>
+        <script type="text/javascript" src="app/app.module.js"></script>
+        <script type="text/javascript" src="app/app.constant.js"></script>
+        <script type="text/javascript" charset="utf-8" src="app/app.controller.js"></script>
         <!--<script src="js/main.js"></script>-->
     </body>
 </html>
