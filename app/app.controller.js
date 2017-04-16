@@ -52,9 +52,11 @@
         }
 
         function playAudio() {
+            let audio = document.getElementById('name-speak');
+            let playButton = document.getElementById('play-button');
+            playButton.disabled = true;
             vm.audioLinks.forEach(function(audioLink, index, array){
                 $timeout(function(){
-                    let audio = document.getElementById('name-speak');
                     audio.src = audioLink;
                     audio.play()
                         .catch(function(){
@@ -62,6 +64,12 @@
                         });
                 }, 900*index);
             });
+            $timeout(function(){
+                audio.pause();
+                audio.currentTime = 0;
+                audio.src ="";
+                playButton.disabled = false;
+            },900*vm.audioLinks.length)
         }
 
         function invalidName(currentName, index, nameArray) {
