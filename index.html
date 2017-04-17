@@ -13,7 +13,7 @@
             <p>{{vm.rawInput}}</p>
             <button ng-click="vm.loadAudio()">Make our Russian speak!</button>
             <div>
-                <button id="play-button" ng-show="vm.readyToPlay" ng-click="vm.playAudio()">Listen to your name!</button>
+                <button id="play-button" ng-show="vm.readyToPlay" ng-click="vm.playAudio(1,900)">Listen to your name!</button>
                 <!--<audio ng-repeat="audioLink in vm.audioLinks" ng-attr-id="{{'audio'+$index}}">
                     <source ng-src="{{audioLink}}" type="audio/wav"></source>
                 </audio>-->
