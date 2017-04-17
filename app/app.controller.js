@@ -49,27 +49,31 @@
             });
 
             vm.readyToPlay = true;
+
+            // Preload the audio to smooth the experience
+            playAudio(0,0);
         }
 
-        function playAudio() {
+        function playAudio(volume,waitTime) {
             let audio = document.getElementById('name-speak');
             let playButton = document.getElementById('play-button');
             playButton.disabled = true;
             vm.audioLinks.forEach(function(audioLink, index, array){
                 $timeout(function(){
                     audio.src = audioLink;
+                    audio.volume = volume;
                     audio.play()
                         .catch(function(){
                             console.log("failed");
                         });
-                }, 900*index);
+                }, waitTime*index);
             });
             $timeout(function(){
                 audio.pause();
                 audio.currentTime = 0;
                 audio.src ="";
                 playButton.disabled = false;
-            },900*vm.audioLinks.length)
+            },waitTime*vm.audioLinks.length)
         }
 
         function invalidName(currentName, index, nameArray) {
